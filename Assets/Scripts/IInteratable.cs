@@ -1,8 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
+/// <summary>
+/// reacts for interator
+/// </summary>
 public interface IInteratable
 {
     public void OnInteract();
+    public void StopInteract();
 }

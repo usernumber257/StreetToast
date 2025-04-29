@@ -1,15 +1,20 @@
 using System.Collections;
 using UnityEngine;
 
-public class Object : MonoBehaviour, IInteratable
+/// <summary>
+/// the base of default objects
+/// </summary>
+public class Object : MonoBehaviour, IInteratable, IGrabbable
 {
     [SerializeField] float duringTime = 2f;
-    [SerializeField] float speed = 1f;
+    [SerializeField] float speed = 0.01f;
 
     SpriteRenderer sprite;
     Color toColor;
     Color originColor;
     Color curColor;
+
+    Vector2 originPos;
 
     private void Awake()
     {
@@ -17,17 +22,42 @@ public class Object : MonoBehaviour, IInteratable
 
         originColor = sprite.color;
         toColor = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0f);
+
+        originPos = transform.position;
     }
 
     public void OnInteract()
     {
-        Debug.Log(gameObject.name);
         Blink();
+    }
+
+    public void StopInteract()
+    {
+        if (blinkRoutine != null)
+        {
+            StopCoroutine(blinkRoutine);
+            blinkRoutine = null;
+
+            sprite.color = originColor;
+        }
+    }
+
+    public void OnGrab(Transform grabPos)
+    {
+        transform.parent = grabPos;
+        transform.localPosition = Vector3.zero;
+    }
+
+    public void StopGrab()
+    {
+        transform.parent = null;
+        transform.position = originPos;
     }
 
     void Blink()
     {
-        blinkRoutine = StartCoroutine(BlinkTime());
+        if (blinkRoutine == null)
+            blinkRoutine = StartCoroutine(BlinkTime());
     }
 
     Coroutine blinkRoutine;
@@ -69,8 +99,6 @@ public class Object : MonoBehaviour, IInteratable
                 }
             }
         }
-
-
     }
 
 }
