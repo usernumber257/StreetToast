@@ -42,16 +42,20 @@ public class Object : MonoBehaviour, IInteratable, IGrabbable
         }
     }
 
-    public void OnGrab(Transform grabPos)
+    public void OnGrab(Transform grabPos, float grabRot = 0f)
     {
         transform.parent = grabPos;
+
         transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.Euler(0f, 0f, grabRot);
     }
 
     public void StopGrab()
     {
         transform.parent = null;
+
         transform.position = originPos;
+        transform.rotation = Quaternion.identity;
     }
 
     void Blink()

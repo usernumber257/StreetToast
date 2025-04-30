@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -5,12 +7,20 @@ using UnityEngine;
 /// </summary>
 public class MouseFollower : MonoBehaviour
 {
-    [Tooltip("for prevent gameobject move over the clamped positions")]
-    [SerializeField] Vector2 clampMin = new Vector2(-7f, -8f);
-    [SerializeField] Vector2 clampMax = new Vector2(7f, 0f);
+    [Header("Mouse Follow")]
+    [SerializeField] Vector2 clampMin = new Vector2(-7.5f, -8f);
+    [SerializeField] Vector2 clampMax = new Vector2(7.5f, 1f);
 
-    [Tooltip("mouse follow speed")]
     [SerializeField][Range(5f, 10f)] float followSpeed = 7f;
+
+    [Header("Flip by its position")]
+    [SerializeField] bool canFlip = true;
+
+    [Header("Hand Down Animation")]
+    [SerializeField] bool downAnim = true;
+    [SerializeField] Transform modelParent;
+    [SerializeField][Range(0.01f, 0.1f)] float downSpeed = 0.03f;
+    float downAmount = -6f;
 
     Vector2 targetPos; //caching for lerp
 
@@ -33,5 +43,61 @@ public class MouseFollower : MonoBehaviour
             transform.position = new Vector2(transform.position.x, clampMin.y);
         else if (transform.position.y > clampMax.y)
             transform.position = new Vector2(transform.position.x, clampMax.y);
+
+
+        //flips gameObject by mouse position on screen when canFilp true
+        if (!canFlip)
+            return;
+
+        if (targetPos.x < 0 && transform.localScale.x != -1f)
+        {
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+            HandDown();
+        }
+        else if (targetPos.x > 0 && transform.localScale.x != 1f)
+        {
+            transform.localScale = new Vector3(1f, 1f, 1f);
+            HandDown();
+        }
+    }
+
+    /// <summary>
+    /// starts hand down with animation
+    /// </summary>
+    void HandDown()
+    {
+        if (handDownRoutine != null)
+            StopCoroutine(handDownRoutine);
+
+        handDownRoutine = StartCoroutine(HandDownTime());
+    }
+
+    Coroutine handDownRoutine;
+    IEnumerator HandDownTime()
+    {
+        while (true)
+        {
+            if (modelParent.localPosition.y <= downAmount)
+                break;
+
+            modelParent.localPosition = Vector2.Lerp(modelParent.localPosition, new Vector2(modelParent.localPosition.x, downAmount - 0.1f), downSpeed);
+            yield return null;
+        }
+
+        while (true)
+        {
+            if (modelParent.localPosition.y >= targetPos.y)
+                break;
+
+            //if mouse pos on screen over clampMax.y, hand will move to clampMax.y
+            if (targetPos.y < clampMax.y)
+                modelParent.localPosition = Vector2.Lerp(modelParent.localPosition, new Vector2(modelParent.localPosition.x, targetPos.y + 0.1f), downSpeed);
+            else
+                modelParent.localPosition = Vector2.Lerp(modelParent.localPosition, new Vector2(modelParent.localPosition.x, clampMax.y + 0.1f), downSpeed);
+
+            yield return null;
+        }
+
+        modelParent.localPosition = Vector2.zero;
     }
 }

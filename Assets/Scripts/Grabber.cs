@@ -9,6 +9,7 @@ using UnityEngine;
 public class Grabber : MonoBehaviour
 {
     [SerializeField] Transform grabPos;
+    [SerializeField] float grabRot = 50f;
 
     Interactor interactor;
     bool canGrab = false;

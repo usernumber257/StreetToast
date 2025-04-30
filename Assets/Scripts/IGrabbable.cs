@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// can grab by grabber
+/// </summary>
 public interface IGrabbable
 {
-    public void OnGrab(Transform grabPos);
+    public void OnGrab(Transform grabPos, float grabRot = 0f);
     public void StopGrab();
 }
