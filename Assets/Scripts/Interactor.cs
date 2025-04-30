@@ -10,7 +10,7 @@ public class Interactor : MonoBehaviour
     GameObject curInteractableObj;
     public GameObject CurInteractableObj { get { return curInteractableObj; } }
 
-    public UnityAction OnInteract;
+    public UnityAction<bool> OnInteract;
 
     private void Update()
     {
@@ -26,6 +26,8 @@ public class Interactor : MonoBehaviour
             if (prevInteractable != null)
             {
                 prevInteractable.StopInteract();
+
+                OnInteract?.Invoke(false);
                 prevInteractable = null;
             }
 
@@ -38,10 +40,13 @@ public class Interactor : MonoBehaviour
             return;
 
         curInteractableObj = hit.collider.gameObject;
-        OnInteract?.Invoke();
+        OnInteract?.Invoke(true);
 
         if (prevInteractable != null && prevInteractable != interactable)
+        {
             prevInteractable.StopInteract();
+            OnInteract?.Invoke(false);
+        }
 
         interactable.OnInteract();
 

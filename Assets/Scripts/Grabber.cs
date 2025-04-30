@@ -38,14 +38,14 @@ public class Grabber : MonoBehaviour
         interactor.OnInteract -= CanGrab;
     }
 
-    void CanGrab()
+    void CanGrab(bool canGrab)
     {
         grabbable = interactor.CurInteractableObj.GetComponent<IGrabbable>();
 
-        if (grabbable == null)
-            canGrab = false;
+        if (grabbable == null || !canGrab)
+            this.canGrab = false;
         else
-            canGrab = true;
+            this.canGrab = true;
     }
 
     void Grab()

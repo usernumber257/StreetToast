@@ -1498,7 +1498,7 @@ GameObject:
   - component: {fileID: 640200527869000746}
   - component: {fileID: 7948805405988997363}
   m_Layer: 0
-  m_Name: default face
+  m_Name: normal face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1580,8 +1580,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6007902818452342365}
-  - component: {fileID: 5452437119369392251}
-  - component: {fileID: 4161918733987750683}
+  - component: {fileID: 3089288669322196130}
+  - component: {fileID: 3913360185478616838}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -1602,14 +1602,14 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 697095450524852888}
-  - {fileID: 1766748782392829727}
-  - {fileID: 6897393642129417121}
   - {fileID: 2177634227139432017}
+  - {fileID: 1766748782392829727}
+  - {fileID: 697095450524852888}
   - {fileID: 3389627980170752570}
+  - {fileID: 6897393642129417121}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5452437119369392251
+--- !u!114 &3089288669322196130
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1618,34 +1618,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7146128111574655881}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33f7c09f8275e4447aae1367f73a273a, type: 3}
+  m_Script: {fileID: 11500000, guid: 279fe459b888fdf4f92b614585f62f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hairs:
-  - {fileID: 8011323985799266461}
-  - {fileID: 2135400766330265935}
-  - {fileID: 6527629932552087664}
-  - {fileID: 8018290673835705968}
-  - {fileID: 6050421730592940801}
-  - {fileID: 4455294062898277193}
-  - {fileID: 8710270229045091644}
-  faces:
-  - {fileID: 4555651268038861533}
-  - {fileID: 1447484716082816025}
-  - {fileID: 7764985781730080144}
-  - {fileID: 5353840254979693201}
-  tops:
-  - {fileID: 5648158560278461545}
-  - {fileID: 5935554132607684393}
-  - {fileID: 6741450291131387755}
-  - {fileID: 5705616793443169786}
-  - {fileID: 1399044490927990455}
-  accs:
-  - {fileID: 8620130007205997737}
-  - {fileID: 3328848800444203771}
-  - {fileID: 1974793077740287988}
-  - {fileID: 6637227467953489803}
---- !u!114 &4161918733987750683
+  hairParent: {fileID: 2177634227139432017}
+  faceParent: {fileID: 1766748782392829727}
+  topParent: {fileID: 697095450524852888}
+  accParent: {fileID: 3389627980170752570}
+--- !u!114 &3913360185478616838
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1654,7 +1634,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7146128111574655881}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f64c6af762143f4e859ec1a058ff773, type: 3}
+  m_Script: {fileID: 11500000, guid: f47b9f87b7ab993458c97fa1acebbac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   normal: {fileID: 6789467603026952501}

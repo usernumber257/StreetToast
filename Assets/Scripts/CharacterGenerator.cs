@@ -7,13 +7,25 @@ using UnityEngine;
 /// </summary>
 public class CharacterGenerator : MonoBehaviour
 {
-    [SerializeField] GameObject[] hairs;
-    [SerializeField] GameObject[] faces;
-    [SerializeField] GameObject[] tops;
-    [SerializeField] GameObject[] accs;
+    [SerializeField] Transform hairParent;
+    [SerializeField] Transform faceParent;
+    [SerializeField] Transform topParent;
+    [SerializeField] Transform accParent;
+
+    GameObject[] hairs;
+    GameObject[] faces;
+    GameObject[] tops;
+    GameObject[] accs;
 
     private void Start()
     {
+        //make array
+        MakeArray(ref hairs, hairParent);
+        MakeArray(ref faces, faceParent);
+        MakeArray(ref tops, topParent);
+        MakeArray(ref accs, accParent);
+
+
         //disactive all gameobjects
         DisActive(hairs);
         DisActive(faces);
@@ -25,6 +37,19 @@ public class CharacterGenerator : MonoBehaviour
         Generate(faces);
         Generate(tops);
         Generate(accs, true); //can have empty accs
+    }
+
+    /// <summary>
+    /// make array with parnet's child
+    /// </summary>
+    /// <param name="array"></param>
+    /// <param name="parent"></param>
+    void MakeArray(ref GameObject[] array, Transform parent)
+    {
+        array = new GameObject[parent.childCount];
+
+        for (int i = 0; i < parent.childCount; i++)
+            array[i] = parent.GetChild(i).gameObject;
     }
 
     /// <summary>
