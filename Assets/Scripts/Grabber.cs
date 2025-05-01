@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 
 /// <summary>
@@ -15,6 +16,9 @@ public class Grabber : MonoBehaviour
     bool canGrab = false;
 
     IGrabbable grabbable; //caching
+
+    bool isGrabbing;
+    public bool IsGrabbing { get { return isGrabbing; } }
 
     private void Awake()
     {
@@ -55,6 +59,7 @@ public class Grabber : MonoBehaviour
             return;
 
         grabbable.OnGrab(grabPos);
+        isGrabbing = true;
     }
 
     void StopGrab()
@@ -64,5 +69,7 @@ public class Grabber : MonoBehaviour
 
         grabbable.StopGrab();
         grabbable = null;
+
+        isGrabbing = false;
     }
 }

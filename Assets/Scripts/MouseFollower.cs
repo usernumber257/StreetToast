@@ -22,6 +22,9 @@ public class MouseFollower : MonoBehaviour
     [SerializeField][Range(0.01f, 0.1f)] float downSpeed = 0.03f;
     float downAmount = -6f;
 
+    [Header("do not flip when grab object")]
+    [SerializeField] Grabber grabber;
+
     Vector2 targetPos; //caching for lerp
 
     private void Update()
@@ -47,6 +50,10 @@ public class MouseFollower : MonoBehaviour
 
         //flips gameObject by mouse position on screen when canFilp true
         if (!canFlip)
+            return;
+
+        //can't flip when grabbing something
+        if (grabber != null && grabber.IsGrabbing)
             return;
 
         if (targetPos.x < 0 && transform.localScale.x != -1f)
