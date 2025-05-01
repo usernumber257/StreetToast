@@ -23,6 +23,7 @@ public class MouseFollower : MonoBehaviour
     float downAmount = -6f;
 
     [Header("do not flip when grab object")]
+    [Tooltip("if it's null, flips when grabbing object")]
     [SerializeField] Grabber grabber;
 
     Vector2 targetPos; //caching for lerp

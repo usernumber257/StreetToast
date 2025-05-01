@@ -29,13 +29,16 @@ public class Grabber : MonoBehaviour
 
     private void Update()
     {
-        if (!canGrab)
-            return;
-
-        if (Input.GetMouseButtonDown(0))
-            Grab();
-        else if (Input.GetMouseButtonUp(0))
-            StopGrab();
+        if (Input.GetMouseButton(0))
+        {
+            if (canGrab && !isGrabbing)
+                Grab();
+        }
+        else
+        {
+            if (!canGrab || isGrabbing)
+                StopGrab();
+        }
     }
 
     private void OnDestroy()
@@ -45,10 +48,11 @@ public class Grabber : MonoBehaviour
 
     void CanGrab(bool canGrab)
     {
-        grabbable = interactor.CurInteractableObj.GetComponent<IGrabbable>();
-
-        if (grabbable == null || !canGrab)
+        if (grabbable == null)
+        {
             this.canGrab = false;
+            grabbable = interactor.CurInteractableObj.GetComponent<IGrabbable>();
+        }
         else
             this.canGrab = true;
     }

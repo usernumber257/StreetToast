@@ -4,8 +4,15 @@ using UnityEngine;
 /// <summary>
 /// the base of default objects
 /// </summary>
+[RequireComponent(typeof(BoxCollider2D))]
 public class Object : MonoBehaviour, IInteratable, IGrabbable
 {
+    [Header("make instance when grab")]
+    [Tooltip("if it's null, they dont make instance")]
+    [SerializeField] GameObject instancePrefab;
+    GameObject instance;
+
+    [Header("anim blinks when interaction")]
     [SerializeField] float duringTime = 2f;
     [SerializeField] float speed = 0.01f;
 
@@ -44,18 +51,41 @@ public class Object : MonoBehaviour, IInteratable, IGrabbable
 
     public void OnGrab(Transform grabPos, float grabRot = 0f)
     {
-        transform.parent = grabPos;
+        Debug.Log($"on grab {gameObject.name}");
+        if (instancePrefab == null)
+        {
+            transform.parent = grabPos;
 
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.Euler(0f, 0f, grabRot);
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.Euler(0f, 0f, grabRot);
+        }
+        else
+        {
+            //use object pool for instance
+            if (instance == null)
+                instance = Instantiate(instancePrefab);
+            
+            instance.SetActive(true);
+
+            instance.transform.parent = grabPos;
+
+            instance.transform.localPosition = Vector3.zero;
+            instance.transform.localRotation = Quaternion.Euler(0f, 0f, grabRot);
+        }
     }
 
     public void StopGrab()
     {
-        transform.parent = null;
+        Debug.Log($"stop grab {gameObject.name}");
+        if (instance == null)
+        {
+            transform.parent = null;
 
-        transform.position = originPos;
-        transform.rotation = Quaternion.identity;
+            transform.position = originPos;
+            transform.rotation = Quaternion.identity;
+        }
+        else
+            instance.SetActive(false);
     }
 
     void Blink()
