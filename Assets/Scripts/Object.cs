@@ -8,8 +8,9 @@ using UnityEngine;
 public class Object : MonoBehaviour, IInteratable, IGrabbable
 {
     [Header("make instance when grab")]
-    [Tooltip("if it's null, they dont make instance")]
     [SerializeField] GameObject instancePrefab;
+    [Tooltip("if it's true, hide original object when instance made")]
+    [SerializeField] bool hideOrigin = false;
     GameObject instance;
 
     [Header("anim blinks when interaction")]
@@ -25,12 +26,28 @@ public class Object : MonoBehaviour, IInteratable, IGrabbable
 
     private void Awake()
     {
+        Init();
+    }
+
+    private void OnDestroy()
+    {
+        instance.GetComponent<Instance>().OnPlaced -= StopGrab;
+    }
+
+    private void Init()
+    {
         sprite = GetComponent<SpriteRenderer>();
 
         originColor = sprite.color;
         toColor = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0f);
 
         originPos = transform.position;
+
+        //use object pool for instance
+        instance = Instantiate(instancePrefab);
+        instance.SetActive(false);
+
+        instance.GetComponent<Instance>().OnPlaced += StopGrab;
     }
 
     public void OnInteract()
@@ -51,41 +68,29 @@ public class Object : MonoBehaviour, IInteratable, IGrabbable
 
     public void OnGrab(Transform grabPos, float grabRot = 0f)
     {
-        Debug.Log($"on grab {gameObject.name}");
         if (instancePrefab == null)
-        {
-            transform.parent = grabPos;
+            return;
 
-            transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.Euler(0f, 0f, grabRot);
-        }
-        else
-        {
-            //use object pool for instance
-            if (instance == null)
-                instance = Instantiate(instancePrefab);
-            
-            instance.SetActive(true);
+        instance.SetActive(true);
 
-            instance.transform.parent = grabPos;
+        instance.transform.parent = grabPos;
 
-            instance.transform.localPosition = Vector3.zero;
-            instance.transform.localRotation = Quaternion.Euler(0f, 0f, grabRot);
-        }
+        instance.transform.localPosition = Vector3.zero;
+        instance.transform.localRotation = Quaternion.Euler(0f, 0f, grabRot);
+
+        if (hideOrigin)
+            transform.gameObject.SetActive(false);
     }
 
     public void StopGrab()
     {
-        Debug.Log($"stop grab {gameObject.name}");
         if (instance == null)
-        {
-            transform.parent = null;
+            return;
+        
+        instance.SetActive(false);
 
-            transform.position = originPos;
-            transform.rotation = Quaternion.identity;
-        }
-        else
-            instance.SetActive(false);
+        if (hideOrigin)
+            transform.gameObject.SetActive(true);
     }
 
     void Blink()
