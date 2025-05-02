@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 573344793101753766}
   - component: {fileID: 4371176755936219051}
   - component: {fileID: 6811415599478704769}
-  - component: {fileID: 4354055234151354522}
+  - component: {fileID: 7912515469451558359}
   m_Layer: 0
   m_Name: ketchupInstance
   m_TagString: Untagged
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3451072605220181753}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.8007, y: -2.0670228, z: 0}
   m_LocalScale: {x: 0.94, y: 0.94, z: 0.94}
   m_ConstrainProportionsScale: 0
@@ -131,7 +131,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
---- !u!114 &4354055234151354522
+--- !u!114 &7912515469451558359
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

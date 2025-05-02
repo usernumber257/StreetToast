@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// grabs grabbable
@@ -17,6 +19,8 @@ public class Grabber : MonoBehaviour
     bool isGrabbing;
     public bool IsGrabbing { get { return isGrabbing; } }
 
+    public UnityAction OnStopGrab;
+
     private void Awake()
     {
         interactor = GetComponent<Interactor>();
@@ -26,7 +30,7 @@ public class Grabber : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (GameManager.Instance.Input.IsDown)
         {
             if (canGrab && !isGrabbing)
                 Grab();
@@ -70,6 +74,8 @@ public class Grabber : MonoBehaviour
 
         grabbable.StopGrab();
         grabbable = null;
+
+        OnStopGrab?.Invoke();
 
         isGrabbing = false;
     }

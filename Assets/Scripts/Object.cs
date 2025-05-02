@@ -29,11 +29,6 @@ public class Object : MonoBehaviour, IInteratable, IGrabbable
         Init();
     }
 
-    private void OnDestroy()
-    {
-        instance.GetComponent<Instance>().OnPlaced -= StopGrab;
-    }
-
     private void Init()
     {
         sprite = GetComponent<SpriteRenderer>();
