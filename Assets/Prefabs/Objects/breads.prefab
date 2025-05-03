@@ -143,6 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a3677421aba0941bfb34b85e225389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instancePrefab: {fileID: 6732892738782746758, guid: 29348660b229f8044bb83fa1144d46cf, type: 3}
+  ingredientType: 2
+  instancePrefab: {fileID: 4601767496747905588, guid: 29348660b229f8044bb83fa1144d46cf, type: 3}
+  hideOrigin: 0
   duringTime: 2
   speed: 0.01

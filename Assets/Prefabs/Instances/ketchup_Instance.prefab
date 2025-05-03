@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6811415599478704769}
   - component: {fileID: 7912515469451558359}
   m_Layer: 0
-  m_Name: ketchupInstance
+  m_Name: ketchup_Instance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,3 +143,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79da2e5005512aa4798527c2b4c8b69b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  placedVisual: {fileID: 4967818916534260475, guid: 78c125a0519018c48a00dd34b4ddc69a, type: 3}

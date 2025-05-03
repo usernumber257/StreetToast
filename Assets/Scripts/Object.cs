@@ -7,11 +7,14 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Object : MonoBehaviour, IInteratable, IGrabbable
 {
+    [SerializeField] MyEnum.Ingredient ingredientType;
+    public MyEnum.Ingredient IngredientType { get => ingredientType; }
+
     [Header("make instance when grab")]
-    [SerializeField] GameObject instancePrefab;
+    [SerializeField] Instance instancePrefab;
     [Tooltip("if it's true, hide original object when instance made")]
     [SerializeField] bool hideOrigin = false;
-    GameObject instance;
+    Instance instance;
 
     [Header("anim blinks when interaction")]
     [SerializeField] float duringTime = 2f;
@@ -40,9 +43,12 @@ public class Object : MonoBehaviour, IInteratable, IGrabbable
 
         //use object pool for instance
         instance = Instantiate(instancePrefab);
-        instance.SetActive(false);
+        instance.Init(this);
 
-        instance.GetComponent<Instance>().OnPlaced += StopGrab;
+        instance.transform.parent = transform;
+        instance.gameObject.SetActive(false);
+
+        instance.OnPlaced += StopGrab;
     }
 
     public void OnInteract()
@@ -66,7 +72,7 @@ public class Object : MonoBehaviour, IInteratable, IGrabbable
         if (instancePrefab == null)
             return;
 
-        instance.SetActive(true);
+        instance.gameObject.SetActive(true);
 
         instance.transform.parent = grabPos;
 
@@ -82,7 +88,7 @@ public class Object : MonoBehaviour, IInteratable, IGrabbable
         if (instance == null)
             return;
         
-        instance.SetActive(false);
+        instance.gameObject.SetActive(false);
 
         if (hideOrigin)
             transform.gameObject.SetActive(true);
